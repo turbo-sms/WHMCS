@@ -1,0 +1,63 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-addons",
+    "name": "turbo_sms",
+    "license": "proprietary",
+    "category": "notifications",
+    "description": {
+      "name": "Turbo SMS",
+      "tagline": "Send Notifications to customers and verify phone with OTP",
+      "long": "If you need Bulk SMS Service Contact with turbosms.net",
+      "features": [
+        "Client Login",
+        "Client Registration",
+        "Client Password Change Alert",
+        "Configure SMS gateways settings and SMS alert message templates",
+        "Invoice Created Alert",
+        "Invoice Paid Notification",
+        "Invoice Reminder",
+        "Invoice First Overdue Notice",
+        "Invoice Second Overdue Notice",
+        "Invoice Third Overdue Notice",
+        "Service Password Change Notification",
+        "Cancellation Request Notification",
+        "Domain Registration Notification",
+        "Domain Transfer Notification",
+        "Domain Renewal Notification",
+        "Domain First, Second, Third Overdue Notification",
+        "Support Ticket Response SMS",
+        "Search clients & view all sent SMS",
+        "Show the number of characters in the message as we type"
+    
+      ]
+    },
+    "logo": {
+      "filename": "images/logo.png"
+    },
+    "support": {
+      "homepage": "https:\/\/turbosms.net",
+      "learn_more": "https:\/\/www.turbosms.net\/integration", 
+      "docs_url": "https:\/\/turbosms.net/api",
+      "email": "support@turbosms.net",
+      "support_url": "https:\/\/manage.turbosms.net\/"
+    },
+    "marketplace": {
+      "url": "https:\/\/marketplace.whmcs.com\/product\/6004"
+    },
+    "authors": [
+      {
+        "name": "Turbo SMS Technical Department",
+        "homepage": "https:\/\/www.turbosms.net\/"
+      }
+    ],
+    "keywords": [
+      "sms",
+      "notification",
+      "otp",
+      "verification",
+      "turbo sms",
+      "reminder",
+      "bulk sms"
+    ]
+  }
+  
