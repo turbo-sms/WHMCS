@@ -3,7 +3,7 @@
 
 $_ADDONLANG['lang'] = "english";
 
-$_ADDONLANG['newversion'] = "There is an update for addon. Please visit <a href=\"https://turbosms.net/integration\" target='_blank' style='color:blue'>Turbo SMS Integration Page</a> to download new version.<br><br>Please visit this page after file transfer finished.<br><br>";
+$_ADDONLANG['newversion'] = "There is an update for addon. Please visit <a href=\"https://turbosms.com.bd/integration\" target='_blank' style='color:blue'>Turbo SMS Integration Page</a> to download new version.<br><br>Please visit this page after file transfer finished.<br><br>";
 $_ADDONLANG['uptodate'] = "Your addon is up to date.";
 $_ADDONLANG['save'] = "Save";
 $_ADDONLANG['gsmnumberfield'] = "Mobile Number Field (Custom client field)";
@@ -39,7 +39,7 @@ $_ADDONLANG['active'] = "Activate";
 $_ADDONLANG['ekstra'] = "Number of days {x}";
 $_ADDONLANG['admingsm'] = "Admin Mobile Numbers";
 $_ADDONLANG['admingsmornek'] = "For sending sms to multiple user use comma seperated number with country code e.g. 88018XXXXXXXX,88017XXXXXXXX";
-$_ADDONLANG['lisans'] = "<a href=\"https://www.turbosms.net\" target='_blank'>Turbo SMS</a> - <a href=\"https://www.facebook.com/turbosms.net\">Developed By Turbo SMS Technical Department</a>";
+$_ADDONLANG['lisans'] = "<a href=\"https://www.turbosms.com.bd\" target='_blank'>Turbo SMS</a> - <a href=\"https://www.facebook.com/turbosms.net\">Developed By Turbo SMS Technical Department</a>";
 $_ADDONLANG['credit'] = "Your Remaining Turbo SMS Balance is ";
 
 

@@ -1,6 +1,6 @@
 <?php
 /* WHMCS Turbo SMS Addon with GNU/GPL Licence
- * Turbo SMS - https://www.turbosms.net
+ * Turbo SMS - https://turbosms.com.bd
  *
  * https://github.com/TURBO-SMS/WHMCS
  *
@@ -118,7 +118,7 @@ class turbosms{
      */
     public function getSettings(){
         $where = array("id"=>1);
-        $result = select_query("mod_turbosms_settings", "*",$where);
+        $result = select_query("turbosms_settings", "*",$where);
 
         return mysql_fetch_array($result);
     }
@@ -226,7 +226,7 @@ else {
     }
 
     function getReport($msgid){
-        $result = mysql_query("SELECT sender FROM mod_turbosms_messages WHERE msgid = '$msgid' LIMIT 1");
+        $result = mysql_query("SELECT sender FROM turbosms_messages WHERE msgid = '$msgid' LIMIT 1");
         $result = mysql_fetch_array($result);
 
         $sender_function = strtolower($result['sender']);
@@ -265,7 +265,7 @@ else {
 
     function saveToDb($msgid,$status,$errors = null,$logs = null){
         $now = date("Y-m-d H:i:s");
-        $table = "mod_turbosms_messages";
+        $table = "turbosms_messages";
         $values = array(
             "sender" => $this->getSender(),
             "to" => $this->getGsmnumber(),
@@ -342,7 +342,7 @@ else {
 
         $i=0;
         foreach($hooks as $hook){
-            $sql = "SELECT `id` FROM `mod_turbosms_templates` WHERE `name` = '".$hook['function']."' AND `type` = '".$hook['type']."' LIMIT 1";
+            $sql = "SELECT `id` FROM `turbosms_templates` WHERE `name` = '".$hook['function']."' AND `type` = '".$hook['type']."' LIMIT 1";
             $result = mysql_query($sql);
             $num_rows = mysql_num_rows($result);
             if($num_rows == 0){
@@ -356,14 +356,14 @@ else {
                         "description" => json_encode(@$hook['description']),
                         "active" => 1
                     );
-                    insert_query("mod_turbosms_templates", $values);
+                    insert_query("turbosms_templates", $values);
                     $i++;
                 }
             }else{
                 $values = array(
                     "variables" => $hook['variables']
                 );
-                update_query("mod_turbosms_templates", $values, "name = '" . $hook['name']."'");
+                update_query("turbosms_templates", $values, "name = '" . $hook['name']."'");
             }
         }
         return $i;
@@ -371,7 +371,7 @@ else {
 
     function getTemplateDetails($template = null){
         $where = array("name" => $template);
-        $result = select_query("mod_turbosms_templates", "*", $where);
+        $result = select_query("turbosms_templates", "*", $where);
         $data = mysql_fetch_assoc($result);
 
         return $data;
@@ -675,7 +675,7 @@ else {
 
 // 	function getUnverifiedOTP( $clientId ) {
 		
-// 		$result = select_query( "mod_turbosms_otp", '', array( "relid" => $clientId , "type" => 'client' , 'status' => 1 ) );
+// 		$result = select_query( "turbosms_otp", '', array( "relid" => $clientId , "type" => 'client' , 'status' => 1 ) );
 // 		while($data = mysql_fetch_array( $result , MYSQL_ASSOC)) {
 // 			$return_data[] = $data;
 // 		}
@@ -685,12 +685,12 @@ else {
 	
 // 	function getOtp( $otpId ) {
 		
-// 		$result = select_query( "mod_turbosms_otp", '', array( "id" => $otpId ) );
+// 		$result = select_query( "turbosms_otp", '', array( "id" => $otpId ) );
 // 		return mysql_fetch_array( $result , MYSQL_ASSOC );		
 // 	}
 	
 // 	function getClientOTP( $clientId ) {
-// 		$result = select_query( "mod_turbosms_otp", '', array( "relid" => $clientId , "type" => 'client' ) );
+// 		$result = select_query( "turbosms_otp", '', array( "relid" => $clientId , "type" => 'client' ) );
 // 		while($data = mysql_fetch_array( $result , MYSQL_ASSOC)) {
 // 			$return_data[] = $data;
 // 		}

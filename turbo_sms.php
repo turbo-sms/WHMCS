@@ -5,8 +5,8 @@ if (!defined("WHMCS"))
 
 function turbo_sms_config() {
     $configarray = array(
-        "name" => "Turbo SMS",
-        "description" => "If you need Bulk SMS Service Contact with <a href='https:www.//turbosms.net'> turbosms.net</a>",
+        "name" => "TURBO SMS",
+        "description" => "If you need Bulk SMS Service Contact with <a href='https://turbosms.com.bd'> turbosms..com.bd</a>",
         "version" => "2.0",
         "author" => "Turbo SMS Technical Department",
 		"language" => "english",
@@ -16,20 +16,20 @@ function turbo_sms_config() {
 
 function turbo_sms_activate() {
 
-    $query = "CREATE TABLE IF NOT EXISTS `mod_turbosms_messages` (`id` int(11) NOT NULL AUTO_INCREMENT,`sender` varchar(40) NOT NULL,`to` varchar(15) DEFAULT NULL,`text` text,`msgid` varchar(50) DEFAULT NULL,`status` varchar(10) DEFAULT NULL,`errors` text,`logs` text,`user` int(11) DEFAULT NULL,`datetime` datetime NOT NULL,PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+    $query = "CREATE TABLE IF NOT EXISTS `turbosms_messages` (`id` int(11) NOT NULL AUTO_INCREMENT,`sender` varchar(40) NOT NULL,`to` varchar(15) DEFAULT NULL,`text` text,`msgid` varchar(50) DEFAULT NULL,`status` varchar(10) DEFAULT NULL,`errors` text,`logs` text,`user` int(11) DEFAULT NULL,`datetime` datetime NOT NULL,PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
 	mysql_query($query);
 
-    $query = "CREATE TABLE IF NOT EXISTS `mod_turbosms_settings` (`id` int(11) NOT NULL AUTO_INCREMENT,`api` varchar(40) CHARACTER SET utf8 NOT NULL,`apiparams` varchar(500) CHARACTER SET utf8 NOT NULL,`wantsmsfield` int(11) DEFAULT NULL,`gsmnumberfield` int(11) DEFAULT NULL,`dateformat` varchar(12) CHARACTER SET utf8 DEFAULT NULL,`version` varchar(6) CHARACTER SET utf8 DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
+    $query = "CREATE TABLE IF NOT EXISTS `turbosms_settings` (`id` int(11) NOT NULL AUTO_INCREMENT,`api` varchar(40) CHARACTER SET utf8 NOT NULL,`apiparams` varchar(500) CHARACTER SET utf8 NOT NULL,`wantsmsfield` int(11) DEFAULT NULL,`gsmnumberfield` int(11) DEFAULT NULL,`dateformat` varchar(12) CHARACTER SET utf8 DEFAULT NULL,`version` varchar(6) CHARACTER SET utf8 DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 	mysql_query($query);
 
-    $query = "INSERT INTO `mod_turbosms_settings` (`api`, `apiparams`, `wantsmsfield`, `gsmnumberfield`,`dateformat`, `version`) VALUES ('turbo', '{\"senderid\":\"\",\"signature\":\"\"}', 0, 0,'%d.%m.%y','1.1.3');";
+    $query = "INSERT INTO `turbosms_settings` (`api`, `apiparams`, `wantsmsfield`, `gsmnumberfield`,`dateformat`, `version`) VALUES ('turbo', '{\"senderid\":\"\",\"signature\":\"\"}', 0, 0,'%d.%m.%y','1.1.3');";
 	mysql_query($query);
 
-    $query = "CREATE TABLE IF NOT EXISTS `mod_turbosms_templates` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(50) CHARACTER SET utf8 NOT NULL,`type` enum('client','admin') CHARACTER SET utf8 NOT NULL,`admingsm` varchar(255) CHARACTER SET utf8 NOT NULL,`template` varchar(240) CHARACTER SET utf8 NOT NULL,`variables` varchar(500) CHARACTER SET utf8 NOT NULL,`active` tinyint(1) NOT NULL,`extra` varchar(3) CHARACTER SET utf8 NOT NULL,`description` text CHARACTER SET utf8,PRIMARY KEY (`id`)) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
+    $query = "CREATE TABLE IF NOT EXISTS `turbosms_templates` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(50) CHARACTER SET utf8 NOT NULL,`type` enum('client','admin') CHARACTER SET utf8 NOT NULL,`admingsm` varchar(255) CHARACTER SET utf8 NOT NULL,`template` varchar(240) CHARACTER SET utf8 NOT NULL,`variables` varchar(500) CHARACTER SET utf8 NOT NULL,`active` tinyint(1) NOT NULL,`extra` varchar(3) CHARACTER SET utf8 NOT NULL,`description` text CHARACTER SET utf8,PRIMARY KEY (`id`)) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 	mysql_query($query);
 
 	//Create a New Table for OTP 
-    $query = "CREATE TABLE IF NOT EXISTS `mod_turbosms_otp` (`id` int(11) NOT NULL AUTO_INCREMENT,`otp` varchar(50) CHARACTER SET utf8 NOT NULL,`type` enum('client','admin') CHARACTER SET utf8 DEFAULT 'client',`relid` int(10) DEFAULT 0,`request` varchar(50) CHARACTER SET utf8 NOT NULL,`text` text,`status` tinyint(1) DEFAULT 0, `datetime` datetime NOT NULL, `phonenumber` text, PRIMARY KEY (`id`)) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
+    $query = "CREATE TABLE IF NOT EXISTS `turbosms_otp` (`id` int(11) NOT NULL AUTO_INCREMENT,`otp` varchar(50) CHARACTER SET utf8 NOT NULL,`type` enum('client','admin') CHARACTER SET utf8 DEFAULT 'client',`relid` int(10) DEFAULT 0,`request` varchar(50) CHARACTER SET utf8 NOT NULL,`text` text,`status` tinyint(1) DEFAULT 0, `datetime` datetime NOT NULL, `phonenumber` text, PRIMARY KEY (`id`)) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 	mysql_query($query);
 	
     //Creating hooks
@@ -42,14 +42,14 @@ function turbo_sms_activate() {
 
 function turbo_sms_deactivate() {
 
-    $query = "DROP TABLE `mod_turbosms_templates`";
+    $query = "DROP TABLE `turbosms_templates`";
 	mysql_query($query);
-    $query = "DROP TABLE `mod_turbosms_settings`";
+    $query = "DROP TABLE `turbosms_settings`";
     mysql_query($query);
-    $query = "DROP TABLE `mod_turbosms_messages`";
+    $query = "DROP TABLE `turbosms_messages`";
     mysql_query($query);
 	//DROP Table for OTP
-    $query = "DROP TABLE `mod_turbosms_otp`";
+    $query = "DROP TABLE `turbosms_otp`";
     mysql_query($query);
 
     return array('status'=>'success','description'=>'Turbo SMS successfully deactivated :(');
@@ -61,29 +61,29 @@ function turbo_sms_upgrade($vars) {
     switch($version){
         case "1":
         case "1.0.1":
-            $sql = "ALTER TABLE `mod_turbosms_messages` ADD `errors` TEXT NULL AFTER `status` ;ALTER TABLE `mod_turbosms_templates` ADD `description` TEXT NULL ;ALTER TABLE `mod_turbosms_messages` ADD `logs` TEXT NULL AFTER `errors` ;";
+            $sql = "ALTER TABLE `turbosms_messages` ADD `errors` TEXT NULL AFTER `status` ;ALTER TABLE `turbosms_templates` ADD `description` TEXT NULL ;ALTER TABLE `turbosms_messages` ADD `logs` TEXT NULL AFTER `errors` ;";
             mysql_query($sql);
         case "1.1":
-            $sql = "ALTER TABLE `mod_turbosms_settings` CHANGE `apiparams` `apiparams` VARCHAR( 500 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ;";
+            $sql = "ALTER TABLE `turbosms_settings` CHANGE `apiparams` `apiparams` VARCHAR( 500 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ;";
             mysql_query($sql);
         case "1.1.1":
         case "1.1.2":
-            $sql = "ALTER TABLE `mod_turbosms_settings` ADD `dateformat` VARCHAR(12) NULL AFTER `gsmnumberfield`;UPDATE `mod_turbosms_settings` SET dateformat = '%d.%m.%y';";
+            $sql = "ALTER TABLE `turbosms_settings` ADD `dateformat` VARCHAR(12) NULL AFTER `gsmnumberfield`;UPDATE `turbosms_settings` SET dateformat = '%d.%m.%y';";
             mysql_query($sql);
         case "1.1.3":
         case "1.1.4":
-            $sql = "ALTER TABLE `mod_turbosms_templates` CHANGE `name` `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `type` `type` ENUM( 'client', 'admin' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `admingsm` `admingsm` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `template` `template` VARCHAR( 240 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `variables` `variables` VARCHAR( 500 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `extra` `extra` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;";
+            $sql = "ALTER TABLE `turbosms_templates` CHANGE `name` `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `type` `type` ENUM( 'client', 'admin' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `admingsm` `admingsm` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `template` `template` VARCHAR( 240 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `variables` `variables` VARCHAR( 500 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `extra` `extra` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;";
             mysql_query($sql);
-            $sql = "ALTER TABLE `mod_turbosms_settings` CHANGE `api` `api` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `apiparams` `apiparams` VARCHAR( 500 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `dateformat` `dateformat` VARCHAR( 12 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `version` `version` VARCHAR( 6 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;";
+            $sql = "ALTER TABLE `turbosms_settings` CHANGE `api` `api` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `apiparams` `apiparams` VARCHAR( 500 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `dateformat` `dateformat` VARCHAR( 12 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `version` `version` VARCHAR( 6 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;";
             mysql_query($sql);
-            $sql = "ALTER TABLE `mod_turbosms_messages` CHANGE `sender` `sender` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `to` `to` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `text` `text` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `msgid` `msgid` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `status` `status` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `errors` `errors` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `logs` `logs` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;";
+            $sql = "ALTER TABLE `turbosms_messages` CHANGE `sender` `sender` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,CHANGE `to` `to` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `text` `text` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `msgid` `msgid` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `status` `status` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `errors` `errors` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,CHANGE `logs` `logs` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;";
             mysql_query($sql);
 
-            $sql = "ALTER TABLE `mod_turbosms_templates` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+            $sql = "ALTER TABLE `turbosms_templates` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
             mysql_query($sql);
-            $sql = "ALTER TABLE `mod_turbosms_settings` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+            $sql = "ALTER TABLE `turbosms_settings` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
             mysql_query($sql);
-            $sql = "ALTER TABLE `mod_turbosms_messages` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+            $sql = "ALTER TABLE `turbosms_messages` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
             mysql_query($sql);
         case "1.1.5":
         case "1.1.6":
@@ -178,7 +178,7 @@ function turbo_sms_output($vars){
 
     </style>
     
-   <a href="https://www.turbosms.net" target="_blank" class="logo"><img src="/modules/addons/turbo_sms/images/logo.png" alt="Turbo SMS">
+   <a href="https://www.turbosms.com.bd" target="_blank" class="logo"><img src="/modules/addons/turbo_sms/images/logo.png" alt="TURBO SMS">
     
     <div id="clienttabs">
         <ul>
@@ -203,7 +203,7 @@ function turbo_sms_output($vars){
                 'gsmnumberfield' => $_POST['gsmnumberfield'],
                 'dateformat' => $_POST['dateformat']
             );
-            update_query("mod_turbosms_settings", $update, "");
+            update_query("turbosms_settings", $update, "");
         }
         /* UPDATE SETTINGS */
 
@@ -301,7 +301,7 @@ function turbo_sms_output($vars){
     {
         if ($_POST['submit']) {
             $where = array("type" => array("sqltype" => "LIKE", "value" => $_GET['type']));
-            $result = select_query("mod_turbosms_templates", "*", $where);
+            $result = select_query("turbosms_templates", "*", $where);
             while ($data = mysql_fetch_array($result)) {
                 if ($_POST[$data['id'] . '_active'] == "on") {
                     $tmp_active = 1;
@@ -320,7 +320,7 @@ function turbo_sms_output($vars){
                     $update['admingsm']= $_POST[$data['id'] . '_admingsm'];
                     $update['admingsm'] = str_replace(" ","",$update['admingsm']);
                 }
-                update_query("mod_turbosms_templates", $update, "id = " . $data['id']);
+                update_query("turbosms_templates", $update, "id = " . $data['id']);
             }
         }
 
@@ -330,7 +330,7 @@ function turbo_sms_output($vars){
                 <table class="form" width="100%" border="0" cellspacing="2" cellpadding="3" style="margin:0px;border: 0px;">
                     <tbody>';
         $where = array("type" => array("sqltype" => "LIKE", "value" => $_GET['type']));
-        $result = select_query("mod_turbosms_templates", "*", $where);
+        $result = select_query("turbosms_templates", "*", $where);
 
         while ($data = mysql_fetch_array($result)) {
             if ($data['active'] == 1) {
@@ -403,7 +403,7 @@ function turbo_sms_output($vars){
     {
         if(!empty($_GET['deletesms'])){
             $smsid = (int) $_GET['deletesms'];
-            $sql = "DELETE FROM mod_turbosms_messages WHERE id = '$smsid'";
+            $sql = "DELETE FROM turbosms_messages WHERE id = '$smsid'";
             mysql_query($sql);
         }
         echo  '
@@ -439,14 +439,14 @@ function turbo_sms_output($vars){
         $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
         /* Getting messages order by date desc */
         $sql = "SELECT `m`.*,`user`.`firstname`,`user`.`lastname`
-        FROM `mod_turbosms_messages` as `m`
+        FROM `turbosms_messages` as `m`
         JOIN `tblclients` as `user` ON `m`.`user` = `user`.`id`
         ORDER BY `m`.`datetime` {$order} limit {$start},{$limit}";
         $result = mysql_query($sql);
         $i = 0;
 
         //Getting total records
-        $total = "SELECT count(id) as toplam FROM `mod_turbosms_messages`";
+        $total = "SELECT count(id) as toplam FROM `turbosms_messages`";
         $sonuc = mysql_query($total);
         $sonuc = mysql_fetch_array($sonuc);
         $toplam = $sonuc['toplam'];
@@ -457,7 +457,7 @@ function turbo_sms_output($vars){
         while ($data = mysql_fetch_array($result)) {
             if($data['msgid'] && $data['status'] == ""){
                 $status = $class->getReport($data['msgid']);
-                mysql_query("UPDATE mod_turbosms_messages SET status = '$status' WHERE id = ".$data['id']);
+                mysql_query("UPDATE turbosms_messages SET status = '$status' WHERE id = ".$data['id']);
             }else{
                 $status = $data['status'];
             }
@@ -621,7 +621,7 @@ function turbo_sms_output($vars){
     }
     elseif($tab == "update"){
         //to change the url here.
-        $currentversion = file_get_contents("https://turbosms.net/integration");
+        $currentversion = file_get_contents("https://turbosms.com.bd/integration");
         echo '<div class="internalDiv" style="padding:20px !important;">';
         if($version != $currentversion){
             echo $LANG['newversion'];
@@ -655,7 +655,7 @@ function turbo_sms_output($vars){
 
 	echo '
            
-            <p style="text-align: right;"><a href="https://www.turbosms.net" style="color:blue;" target="_blank">Developed by Turbo SMS Technical Department</a></p>
+            <p style="text-align: right;"><a href="https://turbosms.com.bd" style="color:blue;" target="_blank">Developed by Turbo SMS Technical Department</a></p>
             
             </div>';
     echo '</div>';

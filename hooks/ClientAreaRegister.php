@@ -46,7 +46,7 @@ if(!function_exists('ClientAreaRegister_clientarea')) {
 			"phonenumber" => $client['gsmnumber']
         );
 		
-        $otp_id = insert_query('mod_turbosms_otp', $values);
+        $otp_id = insert_query('turbosms_otp', $values);
         $class->addLog("OTP saved to the database");		
 
 		//Lets SMS The Hook.
@@ -61,7 +61,7 @@ if(!function_exists('ClientAreaRegister_clientarea')) {
 		status => 3 //EMPTY
 		
 		*/
-		update_query( "mod_turbosms_otp", array( "status" => "1"), array( "id" => $otp_id ) );
+		update_query( "turbosms_otp", array( "status" => "1"), array( "id" => $otp_id ) );
         $class->addLog("OTP sent.");		
 
 		
